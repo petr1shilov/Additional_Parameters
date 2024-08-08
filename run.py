@@ -72,12 +72,17 @@ async def get_pdf_handler(message: Message, state: FSMContext):
 
         await bot.delete_messages(chat_id=message.chat.id, message_ids=[waiting_message_id.message_id])
         
-        await message.answer(answer)
-        state.clear()
+        await message.answer_document(FSInputFile(answer))
+        message_after = await message.answer(
+            "Что бы запусть бота заново напишите /start"
+        )
+        await state.update_data(delete_messege=[message_after.message_id])
+        await state.clear()
     except TypeError as e:
         await bot.delete_messages(chat_id=message.chat.id, message_ids=[waiting_message_id.message_id])
         await message.answer('Что-то пошло не по плану(')
         print(e)
+
 
 @dp.message(StateFilter(UserStates.get_pdf), F.content_type != "document")
 async def warning_not_pdf(message: Message, state: FSMContext):

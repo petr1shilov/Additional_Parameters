@@ -1,6 +1,8 @@
 from openai import OpenAI
 import fitz 
 import re
+import pandas as pd
+import json
 
 import config 
 
@@ -35,21 +37,60 @@ class ParamsApi:
 
         return atricle_prompt
     
+    def json_to_excel(self, content, doc_path):
+        json_answer = content[7:]
+        json_answer = json.loads(json_answer[:-3])
+        answer_df = pd.DataFrame()
+        for col_name in json_answer:
+            answer_df[col_name] = [json_answer[col_name]]
+        
+        path = f"{doc_path[:-4]}_additional_parameters.xlsx"
+        answer_df.to_excel(path)
+        return path
+    
     def get_additional_parameters(self, doc_path):
-        # сделать через tools(отдично подойдет найти параметы(если не выйдет посоветоваться с Колей))
 
         system_prompt = 'Тебе необходимо определять ключевые параметры научных статей\n'
 
-        discription_prompt = ('''Тип статьи, например обзор, исследование.
-Тип исследования, например фундаментальное, прикладное.
-Отрасль применения - это конкретная область науки, которая изучает определенные принципы и явления, если тип исследования прикладное.
-Тема статьи - это оснавная идея всего текста, кратко опиши тему – максимум 3-4 слова, например "биотопливо".
-Подтема статьи, кратко опиши подтему – максимум 3-4 слова.
-Цель исследования - это то, к чему стремится соискатель в своих научных исследованиях, то есть конечный результат работы, например бизнес, ESG.
-Новизна статьи, в чем суть исследования – сравнение существующих, новый подход или материал и т.д.)
-Фокус, на чем оснофной фокус текста, например "свойства материалов" или "процессы" и т.д.
-Ключевые материалы, например  палладий, платина, медь, и т.д.
-Выведи ответ в формате json''')
+        discription_prompt = ('''{        
+"required": [ "Тип статьи", "Тип исследования", "Отрасль применения", "Тема статьи",
+               "Подтема статьи", "Новизна статьи", "Фокус", "Ключевые материалы"],
+  "properties": {
+    "Тип статьи": {
+      "type": "string",
+      "description": "Например: обзор, исследование"
+    },
+    "Тип исследования": {
+      "type": "string",
+      "description": "Например: фундаментальное, прикладное"
+    },
+    "Отрасль применения": {
+      "type": "string",
+      "description": "это конкретная область науки, которая изучает определенные принципы и явления, если тип исследования прикладное."
+    },
+    "Тема статьи": {
+      "type": "string",
+      "description": "это оснавная идея всего текста, кратко опиши тему – максимум 1-2 слова, например: 'биотопливо"
+    },
+    "Подтема статьи": {
+      "type": "string",
+      "description": "кратко опиши подтему – максимум 1-2 слова, например: 'катализаторы'"
+    },
+    "Новизна статьи": {
+      "type": "string",
+      "description": "в чем суть исследования – сравнение существующих, новый подход или материал и т.д."
+    },
+    "Фокус": {
+      "type": "string",
+      "description": "на чем оснофной фокус текста, например 'свойства материалов' или 'процессы' и т.д."
+    },
+    "Ключевые материалы": {
+      "type": "list",
+      "description": "Например: палладий, платина, медь, и т.д."
+    },
+}\n'''
+"Выведи ответ в формате json и верни только json")
+
 
         messeges = [{'role': 'system', 'content': system_prompt + discription_prompt}]
 
@@ -59,9 +100,7 @@ class ParamsApi:
             model = self.model,
             messages = messeges
             )
-
-        # path = f"files/{self.doc_path[:-4]}_additional_parameters.text"
-        answer = response.choices[0].message.content[9:]
-        answer = answer[:-5]
+        
+        answer = self.json_to_excel(response.choices[0].message.content, doc_path)
         return answer
         
