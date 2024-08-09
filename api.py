@@ -40,12 +40,12 @@ class ParamsApi:
     def json_to_excel(self, content, doc_path):
         json_answer = content[7:]
         json_answer = json.loads(json_answer[:-3])
-        answer_df = pd.DataFrame()
-        for col_name in json_answer:
-            answer_df[col_name] = [json_answer[col_name]]
+
+        json_answer['Ключевые материалы'] = ['\n'.join(json_answer['Ключевые материалы'])]
+        answer_df = pd.DataFrame(data=json_answer)
         
         path = f"{doc_path[:-4]}_additional_parameters.xlsx"
-        answer_df.to_excel(path)
+        answer_df.to_excel(path, index=False)
         return path
     
     def get_additional_parameters(self, doc_path):
