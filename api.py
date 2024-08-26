@@ -34,11 +34,9 @@ class ParamsApi:
         document = fitz.open(doc_path)
 
         atricle_prompt = chr(12).join([page.get_text() for page in document.pages(0, self.count_pages)])
-        print(atricle_prompt)
         return atricle_prompt
     
     def json_to_excel(self, content, doc_path):
-        print(content)
         json_answer = content[7:]
         json_answer = json.loads(json_answer[:-3])
 
