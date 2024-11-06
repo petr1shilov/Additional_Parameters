@@ -3,8 +3,17 @@ import fitz
 import re
 import pandas as pd
 import json
+import logging 
+from bot.texts import *
 
 import config 
+
+api_logger = logging.getLogger('api_logger')
+handler = logging.StreamHandler()
+format_log = logging.Formatter("%(levelname)s:%(name)s - %(message)s")
+handler.setFormatter(format_log)
+api_logger.addHandler(handler)
+api_logger.setLevel(logging.INFO)
 
 kwargs = {
     'ai_model': 'gpt4o',
@@ -31,114 +40,64 @@ class ParamsApi:
                     }
         
     def read_pdf(self, doc_path):
+        api_logger.info("Чтение файла")
         document = fitz.open(doc_path)
 
         atricle_prompt = chr(12).join([page.get_text() for page in document.pages(0, self.count_pages)])
         return atricle_prompt
     
-    def json_to_excel(self, content, doc_path):
+    def json_to_df(self, content):
+        api_logger.info("Преобразование файла в df 1")
+        print(content)
         json_answer = content[7:]
+        api_logger.info("Преобразование файла в df 2")
         json_answer = json.loads(json_answer[:-3])
-
-        json_answer['Ключевые материалы'] = ['\n'.join(json_answer['Ключевые материалы'])]
-        answer_df = pd.DataFrame(data=json_answer)
-        
-        path = f"{doc_path[:-4]}_additional_parameters.xlsx"
-        answer_df.to_excel(path, index=False)
-        return path
+        api_logger.info("Преобразование файла в df 3")
+        for column_name in json_answer:
+          if isinstance(json_answer[column_name], list):
+             json_answer[column_name] = ['\n'.join(json_answer[column_name])]    
+        api_logger.info("Преобразование файла в df 5")
+        answer_df = pd.DataFrame(data=json_answer, index=[0])
+        api_logger.info("Преобразование файла в df 6")
+        print(answer_df)
+        return answer_df
     
-    def get_additional_parameters(self, doc_path):
+    def get_additional_parameters(self, document_text, discription_prompt):
+        api_logger.info("Работа с api") 
 
         system_prompt = 'Тебе необходимо определять ключевые параметры научных статей\n'
 
-        discription_prompt = ('''{        
-"required": [ "Тип статьи", "Тип исследования", "Отрасль применения", "Тема статьи",
-               "Подтема статьи", "Цель исследования", "Новизна статьи", "Фокус", "Ключевые материалы"],
-  "properties": {
-    "Тип статьи": {
-      "type": "string",
-      "description": "Например: обзор, исследование"
-    },
-    "Тип исследования": {
-      "type": "string",
-      "description": "Например: фундаментальное - это вид научных исследований с целью совершенствования научных теорий для лучшего понимания и прогнозирования природных или других явлений.
-                              , прикладное - используют научные теории для разработки технологий или методик, которые могут быть использованы для вмешательства и изменения природных или других явлений"
-    },
-    "Отрасль применения": {
-      "type": "string",
-      "description": "это область или сфера деятельности, в которой результаты исследования могут быть применены на практике, если тип исследования прикладное. Например: энеретика, информационные технологии, медицина, образование. Максимум 1-2 слова"
-    },
-    "Тема статьи": {
-      "type": "string",
-      "description": "это оснавная идея всего текста, кратко опиши тему – максимум 1-2 слова, например: 'биотопливо"
-    },
-    "Подтема статьи": {
-      "type": "string",
-      "description": "кратко опиши подтему – максимум 1-2 слова, например: 'катализаторы'"
-    },
-    "Цель исследования": {
-      "type": "string",
-      "description": "результат к которому мы хотим придти по итогу исследования, например: бизнесовые ,environmental social governance(ESG), Маркетинговые, Социологические, Психологические"
-    },                             
-    "Новизна статьи": {
-      "type": "string",
-      "description": "в чем суть исследования, например: сравнение существующих, новый подход или материал и т.д."
-    },
-    "Фокус": {
-      "type": "string",
-      "description": "на чем оснофной фокус текста, например: 'свойства материалов', 'процессы' и т.д."
-    },
-    "Ключевые материалы": {
-      "type": "list",
-      "description": "Например: палладий, платина, медь, и т.д."
-    },
-}\n'''
-"Выведи ответ в формате json и верни только json\n"
-'''Пример: 
-  A tannin-based adsorbent was synthesized by pomegranate peel tannin powder modified with
-ethylenediamine (PT-ED) for the rapid and selective recovery of palladium and gold. To char-
-acterize PT-ED, field emission scanning electron microscopy (FE-SEM), energy-dispersive X-ray
-spectroscopy (EDS-Mapping), and Fourier transform infrared spectroscopy (FT-IR) were used.
-Central composite design (CCD) was used for optimization. The kinetic, isotherm, interference of
-coexisting metal ions, and thermodynamics were studied. The optimal conditions, including Au
-(III) concentration  30 mg L 1, Pd (II) concentration  30 mg L 1, adsorbent mass  26 mg, pH
- 2, and time  26 min with the sorption percent more than 99 %, were anticipated for both
-metals using CCD. Freundlich model and pseudo-second-order expressed the isotherm and kinetic
-adsorption of the both metals. The inhomogeneity of the adsorbent surface and the multi-layer
-adsorption of gold and palladium ions on the PT-ED surface are depicted by the Freundlich
-model. The thermodynamic investigation showed that Pd2 and Au3 ions adsorption via PT-ED
-was an endothermic, spontaneous, and feasible process. The maximum adsorption capacity of
-Pd2 and Au3 ions on PT-ED was 261.189 mg g 1 and 220.277 mg g 1, respectively. The prob-
-able adsorption mechanism of Pd2 and Au3 ions can be ion exchange and chelation. PT-ED (26
-mg) recovered gold and palladium rapidly from the co-existing metals in the printed circuit board
-(PCB) scrap, including Ca, Zn, Si, Cr, Pb, Ni, Cu, Ba, W, Co, Mn, and Mg with supreme selectivity
-toward gold and palladium. The results of this work suggest the use of PT-ED with high selectivity
-and efficiency to recover palladium and gold from secondary sources such as PCB scrap.
-  вот такой json для этого примера
- {
-  "Тип статьи": "исследование",
-  "Тип исследования": "прикладное",
-  "Отрасль применения": "энергетика",
-  "Тема статьи": "биотопливо",
-  "Подтема статьи": "катализаторы",
-  "Цель исследования": "environmental social governance(ESG)",
-  "Новизна статьи": "новый подход",
-  "Фокус": "свойства материалов",
-  "Ключевые материалы": ["палладий", "золото"]
-}''')
-
-
         messeges = [{'role': 'system', 'content': system_prompt + discription_prompt}]
 
-        messeges.append({'role': 'user', 'content': self.read_pdf(doc_path)})
+        messeges.append({'role': 'user', 'content': document_text})
 
         response = self.client.chat.completions.create(
             model = self.model,
             messages = messeges
             )
         
-        answer = self.json_to_excel(response.choices[0].message.content, doc_path)
-        return answer
-        
+        answer_df = self.json_to_excel(response.choices[0].message.content)
+        return answer_df
+    
+    def get_answer(self, doc_path):
+      api_logger.info("Начало работы с api") 
+      document_text = self.read_pdf(doc_path)
 
+      api_logger.info("Обработка первой части параметров") 
+      answer_concat = pd.DataFrame()
+
+      for num_of_discription_prompt, discription_prompt in enumerate(discription_prompt_name):
+        api_logger.info(f"Обработка промпта {num_of_discription_prompt}")
+        answer_df = self.json_to_df(document_text, discription_prompt)
+        try: 
+          api_logger.info("Склейка в единую таблицу") 
+          answer_concat = pd.concat([answer_concat, answer_df], axis=1)
+        except:
+          api_logger.info("Concat error")
+
+      api_logger.info("Преобразование файла в xlsx")
+      path = f"{doc_path[:-4]}_additional_parameters.xlsx"
+      api_logger.info("Файл отправлен в дерево")
+      answer_concat.to_excel(path, index=False)
+      return path
 
