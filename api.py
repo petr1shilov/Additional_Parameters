@@ -47,19 +47,13 @@ class ParamsApi:
         return atricle_prompt
     
     def json_to_df(self, content):
-        api_logger.info("Преобразование файла в df 1")
-        print(content)
+        api_logger.info("Преобразование файла в df")
         json_answer = content[7:]
-        api_logger.info("Преобразование файла в df 2")
         json_answer = json.loads(json_answer[:-3])
-        api_logger.info("Преобразование файла в df 3")
         for column_name in json_answer:
           if isinstance(json_answer[column_name], list):
-             json_answer[column_name] = ['\n'.join(json_answer[column_name])]    
-        api_logger.info("Преобразование файла в df 5")
+             json_answer[column_name] = ['\n'.join(json_answer[column_name])]  
         answer_df = pd.DataFrame(data=json_answer, index=[0])
-        api_logger.info("Преобразование файла в df 6")
-        print(answer_df)
         return answer_df
     
     def get_additional_parameters(self, document_text, discription_prompt):
@@ -76,7 +70,7 @@ class ParamsApi:
             messages = messeges
             )
         
-        answer_df = self.json_to_excel(response.choices[0].message.content)
+        answer_df = self.json_to_df(response.choices[0].message.content)
         return answer_df
     
     def get_answer(self, doc_path):
@@ -86,9 +80,9 @@ class ParamsApi:
       api_logger.info("Обработка первой части параметров") 
       answer_concat = pd.DataFrame()
 
-      for num_of_discription_prompt, discription_prompt in enumerate(discription_prompt_name):
-        api_logger.info(f"Обработка промпта {num_of_discription_prompt}")
-        answer_df = self.json_to_df(document_text, discription_prompt)
+      for discription_prompt_id, discription_prompt in enumerate(discription_prompt_name):
+        api_logger.info(f"Обработка промпта {discription_prompt_id}")
+        answer_df = self.get_additional_parameters(document_text, discription_prompt)
         try: 
           api_logger.info("Склейка в единую таблицу") 
           answer_concat = pd.concat([answer_concat, answer_df], axis=1)

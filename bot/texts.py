@@ -121,37 +121,56 @@ discription_prompt_2 = ('''{
     },                    
 }\n'''
 "Выведи ответ в формате json и верни только json\n"
-# '''Пример: 
-#   A tannin-based adsorbent was synthesized by pomegranate peel tannin powder modified with
-# ethylenediamine (PT-ED) for the rapid and selective recovery of palladium and gold. To char-
-# acterize PT-ED, field emission scanning electron microscopy (FE-SEM), energy-dispersive X-ray
-# spectroscopy (EDS-Mapping), and Fourier transform infrared spectroscopy (FT-IR) were used.
-# Central composite design (CCD) was used for optimization. The kinetic, isotherm, interference of
-# coexisting metal ions, and thermodynamics were studied. The optimal conditions, including Au
-# (III) concentration  30 mg L 1, Pd (II) concentration  30 mg L 1, adsorbent mass  26 mg, pH
-#  2, and time  26 min with the sorption percent more than 99 %, were anticipated for both
-# metals using CCD. Freundlich model and pseudo-second-order expressed the isotherm and kinetic
-# adsorption of the both metals. The inhomogeneity of the adsorbent surface and the multi-layer
-# adsorption of gold and palladium ions on the PT-ED surface are depicted by the Freundlich
-# model. The thermodynamic investigation showed that Pd2 and Au3 ions adsorption via PT-ED
-# was an endothermic, spontaneous, and feasible process. The maximum adsorption capacity of
-# Pd2 and Au3 ions on PT-ED was 261.189 mg g 1 and 220.277 mg g 1, respectively. The prob-
-# able adsorption mechanism of Pd2 and Au3 ions can be ion exchange and chelation. PT-ED (26
-# mg) recovered gold and palladium rapidly from the co-existing metals in the printed circuit board
-# (PCB) scrap, including Ca, Zn, Si, Cr, Pb, Ni, Cu, Ba, W, Co, Mn, and Mg with supreme selectivity
-# toward gold and palladium. The results of this work suggest the use of PT-ED with high selectivity
-# and efficiency to recover palladium and gold from secondary sources such as PCB scrap.
-'''вот такой json для этого примера
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
 {
-  "Тип статьи": "исследование",
-  "Тип исследования": "прикладное",
-  "Отрасль применения": "энергетика",
-  "Тема статьи": "биотопливо",
-  "Подтема статьи": "катализаторы",
-  "Цель исследования": "environmental social governance(ESG)",
-  "Новизна статьи": "новый подход",
-  "Фокус": "свойства материалов",
-  "Ключевые материалы": "палладий"
+  "Целевая технология применения" : "Гидрообработка растительных масел для получения возобновляемых углеводородов с использованием серо-свободных катализаторов на основе SiO2-Al2O3, поддерживающих моно- и биметаллические катализаторы, такие как Pd, Pt, Ru, Ni, Mo и NiMo.", 
+  "Отрасли применения технологии (список всех потенциально применимых)" : ["Энергетика", "транспорт", "нефтепереработка", "производство биотоплива"],
+  "Страны" : ["Финляндия", "Латвия"],
+  "Список упоминаемых компаний/организаций" : ["Riga Technical University", "Neste Oil"],
+  "Краткий пересказ" : "Исследование посвящено синтезу возобновляемых углеводородов из растительных масел с использованием ряда серо-свободных катализаторов. Проанализирована производительность и селективность различных катализаторов.",
+  "Сентимент анализ" : "Позитивынй",
+  "Новизна исследования" : ["Разработка новых серо-свободных катализаторов, "Оптимизация гидрообработки растительных масел, "Улучшение селективности и производительности катализаторов"],
 }'''
 )
 
@@ -241,12 +260,53 @@ discription_prompt_TRL = ('''{
 уровень завершает процесс исправления дефектов реально функционирующего продукта.
 Продукт выпускается серийно.'
 }"
-        },
-    }\n'''
-    "Выведи ответ в формате json и верни только json\n"
-    '''вот такой json для этого примера
+},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
 {
-  "TRL технологии": "TRL 3"
+  "TRL технологии": "TRL 5"
 }'''
     
 )                     
@@ -312,13 +372,54 @@ mapping).',
 Полносерийное производство. Налажено полномасштабное производство с участием
 субподрядчиков. Использование бережливого производства и систем менеджмента качества
 (СМК).'
-}"
-        },
-    }\n'''
-    "Выведи ответ в формате json и верни только json\n"
-    '''вот такой json для этого примера
+  }"
+},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
 {
-  "MRL технологии": "MRL 4"
+  "MRL технологии": "MRL 3"
 }'''
 )                     
 discription_prompt_CRL = ('''{        
@@ -384,12 +485,53 @@ Market) – общий объём целевого рынка.',
 Вывод продукции на рынок. Совершенствование маркетинговой стратегии. Подготовка
 требований к новой версии продукта. Внедрена система управления качеством (например, ISO
 9000).'
-        "},
-    }\n'''
-    "Выведи ответ в формате json и верни только json\n"
-'''вот такой json для этого примера
+  "},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered.
+вот такой json для этого примера
 {
-  "CRL технологии": "CRL 3"
+  "CRL технологии": "CRL 2"
 }'''
 )                     
 
@@ -397,4 +539,4 @@ discription_prompt_name = [discription_prompt_1,
                             discription_prompt_2,
                             discription_prompt_TRL,
                             discription_prompt_MRL,
-                            discription_prompt_CRL ]
+                            discription_prompt_CRL]
