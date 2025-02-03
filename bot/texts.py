@@ -9,3 +9,534 @@ warning_pdf_message = ('К сожалению, это не pdf ☹️\n'
                        'Отправьте, пожалуйста, файл в формате pdf')
 
 waiting_message = 'Идет фильтрация. Пожалуйста, подождите'
+
+discription_prompt_1 = ('''{        
+"required": [ "Тип статьи", "Тип исследования", "Отрасль применения", "Тема статьи",
+               "Подтема статьи", "Цель исследования", "Новизна статьи", "Фокус", "Ключевые материалы"],
+  "properties": {
+    "Тип статьи": {
+      "type": "string",
+      "description": "Например: обзор, исследование"
+    },
+    "Тип исследования": {
+      "type": "string",
+      "description": "Например: фундаментальное - это вид научных исследований с целью совершенствования научных теорий для лучшего понимания и прогнозирования природных или других явлений.
+                              , прикладное - используют научные теории для разработки технологий или методик, которые могут быть использованы для вмешательства и изменения природных или других явлений"
+    },
+    "Отрасль применения": {
+      "type": "string",
+      "description": "это область или сфера деятельности, в которой результаты исследования могут быть применены на практике, если тип исследования прикладное. Например: энеретика, информационные технологии, медицина, образование. Максимум 1-2 слова"
+    },
+    "Тема статьи": {
+      "type": "string",
+      "description": "это оснавная идея всего текста, кратко опиши тему – максимум 1-2 слова, например: 'биотопливо"
+    },
+    "Подтема статьи": {
+      "type": "string",
+      "description": "кратко опиши подтему – максимум 1-2 слова, например: 'катализаторы'"
+    },
+    "Цель исследования": {
+      "type": "string",
+      "description": "результат к которому мы хотим придти по итогу исследования, например: бизнес ,environmental social governance(ESG), Маркетинговые, Социологические, Психологические"
+    },                             
+    "Новизна статьи": {
+      "type": "string",
+      "description": "в чем суть исследования, например: сравнение существующих, новый подход или материал и т.д."
+    },
+    "Фокус": {
+      "type": "string",
+      "description": "на чем оснофной фокус текста, например: 'свойства материалов', 'процессы' и т.д."
+    },
+    "Ключевые материалы": {
+      "type": "list",
+      "description": "Например: палладий, платина, медь, и т.д."
+    },
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+  A tannin-based adsorbent was synthesized by pomegranate peel tannin powder modified with
+ethylenediamine (PT-ED) for the rapid and selective recovery of palladium and gold. To char-
+acterize PT-ED, field emission scanning electron microscopy (FE-SEM), energy-dispersive X-ray
+spectroscopy (EDS-Mapping), and Fourier transform infrared spectroscopy (FT-IR) were used.
+Central composite design (CCD) was used for optimization. The kinetic, isotherm, interference of
+coexisting metal ions, and thermodynamics were studied. The optimal conditions, including Au
+(III) concentration  30 mg L 1, Pd (II) concentration  30 mg L 1, adsorbent mass  26 mg, pH
+ 2, and time  26 min with the sorption percent more than 99 %, were anticipated for both
+metals using CCD. Freundlich model and pseudo-second-order expressed the isotherm and kinetic
+adsorption of the both metals. The inhomogeneity of the adsorbent surface and the multi-layer
+adsorption of gold and palladium ions on the PT-ED surface are depicted by the Freundlich
+model. The thermodynamic investigation showed that Pd2 and Au3 ions adsorption via PT-ED
+was an endothermic, spontaneous, and feasible process. The maximum adsorption capacity of
+Pd2 and Au3 ions on PT-ED was 261.189 mg g 1 and 220.277 mg g 1, respectively. The prob-
+able adsorption mechanism of Pd2 and Au3 ions can be ion exchange and chelation. PT-ED (26
+mg) recovered gold and palladium rapidly from the co-existing metals in the printed circuit board
+(PCB) scrap, including Ca, Zn, Si, Cr, Pb, Ni, Cu, Ba, W, Co, Mn, and Mg with supreme selectivity
+toward gold and palladium. The results of this work suggest the use of PT-ED with high selectivity
+and efficiency to recover palladium and gold from secondary sources such as PCB scrap.
+  вот такой json для этого примера
+ {
+  "Тип статьи": "исследование",
+  "Тип исследования": "прикладное",
+  "Отрасль применения": "энергетика",
+  "Тема статьи": "биотопливо",
+  "Подтема статьи": "катализаторы",
+  "Цель исследования": "environmental social governance(ESG)",
+  "Новизна статьи": "новый подход",
+  "Фокус": "свойства материалов",
+  "Ключевые материалы": ["палладий", "золото"]
+}''')
+
+discription_prompt_2 = ('''{        
+"required": [ "Целевая технология применения", "Отрасли применения технологии (список всех потенциально применимых)",
+                         "Страны", "Список упоминаемых компаний/организаций",
+                         "Краткий пересказ", "Сентимент анализ", "Новизна исследования"],
+  "properties": {
+    "Целевая технология применения": {
+      "type": "string",
+      "description": "Определение ключевых технологий и методов, направленных на достижение целей проекта. Включает описание подходов, инструментов и процессов, которые обеспечат эффективное и результативное выполнение задач, а также их соответствие стратегическим целям организации."
+    },
+    "Отрасли применения технологии (список всех потенциально применимых)": {
+      "type": "string",
+      "description": "Отрасли применения технологии: перечень всех сфер и направлений, в которых возможно использование данной технологии для решения задач, улучшения процессов или достижения результатов. Включает как текущие, так и перспективные области применения."
+    },
+    "Страны": {
+      "type": "string",
+      "description": "Выпиши страны, которые могут быть в стратье"
+    },
+    "Список упоминаемых компаний/организаций": {
+      "type": "string",
+      "description": "Выпиши список компаний или организаций, которые есть в статье"
+    },
+    "Краткий пересказ": {
+      "type": "string",
+      "description": "Напиши кратный пересказ темы статьи, пару предложений"
+    },
+    "Сентимент анализ": {
+      "type": "list",
+      "description": "результаты анализа тональности текста, указывая на эмоциональный настрой и общее восприятие автора или пользователя. Значения могут быть положительными, отрицательными или нейтральными, отражая отношение, настроение или эмоциональную окраску содержания"
+    },
+    "Новизна исследования": {
+      "type": "list",
+      "description": "Уникальные аспекты и вклад исследования в развитие области"
+    },                    
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
+{
+  "Целевая технология применения" : "Гидрообработка растительных масел для получения возобновляемых углеводородов с использованием серо-свободных катализаторов на основе SiO2-Al2O3, поддерживающих моно- и биметаллические катализаторы, такие как Pd, Pt, Ru, Ni, Mo и NiMo.", 
+  "Отрасли применения технологии (список всех потенциально применимых)" : ["Энергетика", "транспорт", "нефтепереработка", "производство биотоплива"],
+  "Страны" : ["Финляндия", "Латвия"],
+  "Список упоминаемых компаний/организаций" : ["Riga Technical University", "Neste Oil"],
+  "Краткий пересказ" : "Исследование посвящено синтезу возобновляемых углеводородов из растительных масел с использованием ряда серо-свободных катализаторов. Проанализирована производительность и селективность различных катализаторов.",
+  "Сентимент анализ" : "Позитивынй",
+  "Новизна исследования" : ["Разработка новых серо-свободных катализаторов, "Оптимизация гидрообработки растительных масел, "Улучшение селективности и производительности катализаторов"],
+}'''
+)
+
+discription_prompt_TRL = ('''{        
+    "required": ["TRL технологии"],
+    "properties": {
+        "TRL технологии": {
+        "type": "string",
+        "description": "Общее понятие категории - TRL. Уровень готовности технологии (technology readiness level)
+{'TRL 1' : 'Сформулирована фундаментальная концепция
+технологии и обоснование ее полезности.
+Начальный уровень зрелости технологии. Научные исследования начинают переходить в
+прикладные исследования. Сформулирована идея, основные принципы наблюдались и были
+документированы. Проведен анализ существующих на рынке решений, определена потребность в
+новом продукте, сформулировано перспективное
+технологическое/алгоритмическое/архитектурное решение. Проведен экспертный анализ
+предлагаемого решения: ценность, удобство, реализуемость, прибыльность, востребованность,
+защищенность бизнеса, полезность для развития технологической базы исполнителя.',
+'TRL 2' : 'Определены целевые области применения
+технологии и ее критические элементы
+Концепция технологии/продукта и/или ее применения сформулированы. Сформулировано
+техническое предложение, может быть предложено практическое использование. Аналитический
+обзор, проведенный в рамках патентного исследования, показал реализуемость и отсутствие
+аналогичных решений. Сформулировано предварительное техническое задание, определена
+архитектура (описание основных компонентов и их связей) продукта: платформа для решения,
+компоненты, связь и взаимодействие между ними, проведено моделирование продукта,
+разработан предварительный дизайн. Проведен предварительный патентный анализ, анализ
+промышленных и технологических рисков',
+'TRL 3' : 'Получен макетный образец и продемонстрированы
+его ключевые характеристики.
+Проведены собственные исследования: изготовлен упрощенный лабораторный образец (макет),
+разработана методология тестирования, на физическом/виртуальном опыте подтверждены
+аналитические предсказания ключевых характеристик, подтверждена концепция. Перечень
+характеристик и выборка (набор характеристик и функций макетного образца для тестирования)
+пока не являются репрезентативными, не включают второстепенные характеристики и проверку
+взаимодействия с внешней системой/средой. Разработаны предложения по стратегии защиты
+интеллектуальной собственности',
+'TRL 4' : 'Получен лабораторный образец, подготовлен
+лабораторный стенд, проведены испытания базовых
+функций связи с другими элементами системы
+Лабораторный образец (модель) изготовлен на лабораторном оборудовании. Основные
+технологические компоненты интегрированы с целью установить, что отдельные составляющие
+будут работать в единой модели. Проведено тестирование в расширенном диапазоне
+параметров, проверены основные характеристики связи с другими элементами системы. По
+результатам тестирования проведен сравнительный анализ данной упрощенной модели с
+окончательным образом системы. Заказчик принял/одобрил результаты тестирования.
+Разработана стратегия защиты интеллектуальной собственности',
+'TRL 5' : 'Изготовлен экспериментальный образец в
+реальном масштабе по полупромышленной технологии и
+испытан, проведена эмуляция основных внешних
+условий.Точность/степень завершённости технологии на уровне макета значительно возрастает.
+Изготовлен экспериментальный образец в реальном масштабе по полупромышленной
+технологии, основные технологические компоненты интегрированы, проведены испытания
+расширенного набора функций в лабораторной среде с моделированием основных внешних
+условий и взаимодействия с другими изделиями, результаты согласуются с техническим
+заданием. Уточнены преимущества, стратегия защиты интеллектуальной собственности, план
+снижения рисков, критические факторы',
+'TRL 6' : 'Изготовлен полнофункциональный образец на
+пилотной производственной линии, подтверждены
+рабочие характеристики в условиях, приближенных к
+реальности
+Демонстрация в условиях, соответствующих реальности. Репрезентативный
+полнофункциональный образец изготовлен на прототипе производственной линии и
+протестирован в лаборатории в условиях, воспроизводящих реальность с высокой точностью. На
+этом уровне снимаются технологические риски. Поданы заявки на патенты',
+'TRL 7' : 'Прототип системы продемонстрирован в составе
+системы в реальных условиях эксплуатации
+Опытный образец изготовлен в реальном масштабе на пилотной производственной линии.
+Проведена его демонстрация в реальных условиях эксплуатации'
+'TRL 8' : 'Окончательное подтверждение работоспособности
+образца. Разработка. функционирующей реальной системы завершена
+Полнофункциональный образец (реальная функционирующая система) изготовлен на
+производственной линии. Проведено полное тестирование окончательного варианта образца в
+составе системы в ожидаемых условиях реальной эксплуатации. Как правило, данный уровень
+готовности технологии представляет конец процесса разработки продукта, снятие
+производственных рисков. Возможны незначительные дефекты, проводится тестирование для их
+устранения. Продукт выпускается мелкосерийно',
+'TRL 9' : 'Изделие удовлетворяет всем требованиям:
+инженерным, производственным, эксплуатационным, по
+качеству и надежности. Возможна модификация по
+снижению себестоимости, развитию и эволюции системы
+Функционирующая реальная система подтверждена в
+ходе реальной эксплуатации через успешное выполнение
+испытательных заданий.
+Фактическое/реальное применение продукта в его окончательном виде и в условиях выполнения
+реальных заданий, соответствующих эксплуатационным тестам и оценке. Как правило, этот
+уровень завершает процесс исправления дефектов реально функционирующего продукта.
+Продукт выпускается серийно.'
+}"
+},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
+{
+  "TRL технологии": "TRL 5"
+}'''
+    
+)                     
+discription_prompt_MRL = ('''{        
+    "required": ["MRL технологии"],
+    "properties": {
+        "MRL технологии": {
+        "type": "string",
+        "description": "Общее понятие категории MRL - Уровень производственной готовности(Manufacturing Readiness Levels)
+{'MRL 1' : 'Сделаны выводы относительно основных
+производственных потребностей
+Формирование базовых вводных производства. На теоретическом уровне определены базовые
+производственные концепции. Произведена оценка возможностей в соответствии с
+требованиями продукта.',
+'MRL 2' : 'Определена концепция производства
+Определение производственной концепции. Определена производственная концепция в
+соответствии со сферой применения. Проектирование производственной линии.',
+'MRL 3' : 'Подтверждена производственная концепция
+Верификация производственной концепции. Разработаны экспериментальные производственные
+процессы. Произведены лабораторные исследования для верификации проектных изысканий (paper studies).',
+'MRL 4' : 'Достигнута возможность изготовления
+технических средств в лабораторных условиях
+Производственный процесс в лабораторных условиях. Достигнута возможность изготовления
+технических средств (демонстрационных образцов) в лабораторных условиях. Определены
+требования к цепочке поставок.',
+'MRL 5' : 'Достигнута возможность изготовления прототипов
+компонентов систем в соответствующих
+производственных условиях
+Элементы производственного процесса в естественных условиях. Закончена идентификация
+критически важных компонентов и технологий. Материалы, инструменты, испытательное
+оборудование, а также компетенции персонала были верифицированы. Стоимостная модель (сost
+model) была идентифицирована в соответствии с потоком создания стоимости (value stream
+mapping).',
+'MRL 6' : 'Достигнута возможность изготовления прототипов
+систем и подсистем при наличии готовых элементов
+основного производства (промышленное оборудование,
+квалифицированные кадры, инструментальная или
+технологическая оснастка, методы обработки, материалы
+и пр.)
+Производство прототипов систем и подсистем при наличии готовых элементов основного
+производства Достигнута возможность изготовления прототипа системы при наличии готовых
+элементов основного производства. Идентифицированы долгосрочные элементы цепочки
+поставок.',
+'MRL 7' : 'Достигнута возможность изготовления систем,
+подсистем или их компонентов в условиях, близких к
+реальным, и при завершенных конструкторских расчетах
+Производство систем, подсистем или их компонентов в условиях, приближенным к реальным
+Достигнута возможность изготовления систем, подсистем или их компонентов в условиях, близких
+к реальным. Оценена цепочка поставщиков.',
+'MRL 8' : 'Испытана пилотная производственная линия,
+достигнута готовность к началу мелкосерийного
+производства
+Испытана пилотная производственная линия. Качество производственных процессов доказано.
+Цепочка поставок создана и является стабильной. Достигнута готовность к началу полносерийного
+производства.',
+'MRL 9' : 'Успешно продемонстрирована возможность
+мелкосерийного производства, подготовлена база для
+полномасштабного производства
+Мелкосерийное производство. Успешно продемонстрирована возможность мелкосерийного
+производства, подготовлена база для полномасштабного производства. Обоснована стоимостная
+модель полносерийного производства.',
+'MRL 10' : 'Налажено полномасштабное производство
+Полносерийное производство. Налажено полномасштабное производство с участием
+субподрядчиков. Использование бережливого производства и систем менеджмента качества
+(СМК).'
+  }"
+},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered
+вот такой json для этого примера
+{
+  "MRL технологии": "MRL 3"
+}'''
+)                     
+discription_prompt_CRL = ('''{        
+    "required": ["CRL технологии"],
+    "properties": {
+        "CRL технологии": {
+        "type": "string",
+        "description": "Общее понятие категории CRL - Уровень рыночной готовности и коммерциализации (Commercialization Readiness Level)
+{'CRL 1' : 'Определено наличие потребности рынка по
+литературным источникам: тренды, обзоры,
+конференции, динамика патентования
+Определен потенциальный заказчик/ наличие потребности рынка: тренды, обзоры, конференции,
+динамика патентования. Определены основные показатели качества. Проведено рецензирование
+внешними экспертами. PAM (Potential Available Market) – потенциальный объём рынка.',
+'CRL 2' : 'Определены и оценены целевые потребительские сегменты
+Исходя из проблем заказчика, определены целевые потребительские сегменты, в том числе
+междисциплинарные, и оценен их объем. Определены ключевые компетенции, определяющие
+ключевые преимущества. Проведено сравнение по критическим параметрам и экономическим
+оценкам с конкурентами с учетом динамики рынка. Проведен анализ обзоров рынка, итогов
+конференций. Получена обратная связь от потенциальных потребителей, в том числе комфортные
+письма. Определена целесообразность выполнения проекта. Оценен TAM (Total Addressable
+Market) – общий объём целевого рынка.',
+'CRL 3' : 'Проведены конкурентный анализ, анализ поставщиков, уточнены характеристики продукта,
+способы монетизации. Проведены конкурентный анализ, анализ поставщиков, уточнены характеристики продукта,
+способы монетизации. Разработана продуктовая стратегия. Заказчик далее рецензирует
+предложенное решение Количественные экономические преимущества для потребителя.
+Определен облик конкурента. Проведены мероприятия по customer development. Уточнена ниша
+продукта и уточнена доля рынка по сегментам, включая глобальный рынок. Рассмотрены
+варианты и определены "за" и "против" Определено наличие на рынке компонентов и
+материалов. Сделана оценка стоимости владения. Подготовлены материалы в формате
+представления инвестору.',
+'CRL 4' : 'Уточнены конкуренты, поставщики, модели ценообразования
+Уточнены конкуренты по секторам, Оценен SAM (Served/Serviceable Available Market) – доступный
+объём рынка; Уточнены соответственно характеристики продукта, проведена адаптация модели
+ценообразования. Продуктовая стратегия защищена на уровне компании. Определены инвесторы
+и их области инвестирования для контакта на следующем уровне TRL. Определены поставщики
+критических компонентов, с которыми нужно заключить эксклюзивные соглашения.',
+'CRL 5' : 'Уточнена ценовая политика, выбраны канал
+продаж, приоритетные поставщики
+По результатам тестирования экспериментального образца обновлена модель цены и уточнена
+ценовая политика. Выбраны канал продаж, приоритетные поставщики, диверсифицированы
+каналы поставок компонентов/материалов. Подготовлены ресурсы для работы с
+идентифицированными инвесторами.',
+'CRL 6' : 'Уточненные спецификации продукта по каждому
+целевому сегменту, уточненная бизнес-модель
+По итогам TRL 5 уточнены спецификации продукта по каждому целевому сегменту, уточнена
+бизнес-модель. Разработаны спецификации для каждого потребительского сегмента.
+Подготовлены ресурсы для работы с ключевыми лицами.',
+'CRL 7' : 'Предварительный вывод на рынок
+Уточнены конкурирующие продукты на международном рынке и уточнены критические
+преимущества ПО. Определены бизнес схемы и основные условия сотрудничества. Разработана
+ценовая политика. Подготовлен финансовый план, включая финансовые показатели проекта.
+Оценен SOM (Serviceable & Obtainable Market) – реально достижимый объём рынка. Осуществлен
+предварительный вывод на рынок. Проведено тестирование и подтверждение гипотезы о каналах
+продаж. Выпущены прайс-листы. Подготовлен плана маркетинга. Получены письменные
+подтверждения заинтересованности от партнера/потенциальных потребителей.',
+'CRL 8' : 'Отработка замечаний заказчиков
+Проведены пробные продажи в соответствии с маркетинговой стратегией. Отработаны замечания
+заказчиков по результатам предварительных продаж. Получена обратная связь от пользователей
+по конкурентным преимуществам. Зафиксированы бизнес-модели продаж. Организована система
+продаж и сервиса.',
+'CRL 9' : 'Вывод на рынок
+Вывод продукции на рынок. Совершенствование маркетинговой стратегии. Подготовка
+требований к новой версии продукта. Внедрена система управления качеством (например, ISO
+9000).'
+  "},
+}\n'''
+"Выведи ответ в формате json и верни только json\n"
+'''Пример: 
+A B S T R A C T   
+Screening tests of commercial and prepared monometallic Ni, Mo, Pd, Pt, Ru and bimetallic NiMo catalysts 
+synthesized by four different impregnation methods were performed to evaluate their selectivity and perfor­
+mance on hydrocarbon production from vegetable oil feedstock with high free fatty acid (FFA) content (~50%) 
+by solvent-free hydrotreatment (HT). Catalysts were characterized by N2 sorption analysis, XRF, XRD, FE-SEM 
+and TEM. Composition of feedstock and liquid, gaseous products were analyzed by C, H, N, S elemental anal­
+ysis, FT-IR, GC-FID, GC–MS and GC-TCD. Mo promoted Ni17Mo3DP synthesized using developed one-pot dep­
+osition–precipitation procedure exhibits great performance, selectivity to n-C18 and 6–7% higher hydrocarbon 
+yield (~87%) than elevated metal loading (≥65%) commercial Ni65C and Ni66C catalysts achieved at relatively 
+mild reaction temperature 320–340 ◦C and initial H2 pressure 6–10 MPa. Completely different selectivity of 
+highly active Ru, Ni and NiMo catalysts can be beneficial for wide molecular weight marketable renewable 
+hydrocarbon production from fatty acid containing raw materials.   
+1. Introduction 
+Vegetable oil and animal fat derived second generation renewable 
+hydrocarbon based biofuel “Neste Renewable Diesel” (formerly 
+NExBTL) as a fossil diesel substitute was first manufactured commer­
+cially by Neste Oil company (Finland) in the 2007 [1]. It is practically 
+free of sulfur, olefins, aromatics, polyaromatics and high boiling frac­
+tions. The terms of bio-based alkane or paraffin mixture produced by 
+hydrotreatment (HT) include hydrotreated vegetable oil (HVO), 
+renewable diesel fuel, green diesel, renewable hydrocarbons etc. Since 
+development of Neste Oil the renewable hydrocarbon based diesel fuel 
+substitute has become a large scale product for transport sector with 
+capacity ~7 billion litters in 2019 [2]. Green diesel similarly to biodiesel 
+can be manufactured from any kind of vegetable oil or animal fat raw 
+materials containing fatty acids and their glycerides. Both biofuels can 
+be used as a neat fuel or blend with petroleum diesel for compression 
+ignition engines. Green diesel is superior to biodiesel. It is absolutely 
+compatible with common diesel engines, more stable during storage, 
+energy dense and miscible with petroleum diesel at various tempera­
+tures [3,4]. General advantage of biodiesel is the simplicity of 
+manufacturing process under gentle reaction conditions by esterification 
+or transesterification of feedstock with lower alcohols. The improve­
+ment of fuel properties by modification of chemical structure of fatty 
+acid alkyl ester molecules in biodiesel is strictly limited. Unlike biodiesel 
+production, the synthesis of renewable hydrocarbons is more compli­
+cated and requires elevated reaction temperature, pressurized H2 at­
+mosphere and specific HT catalysts. Depending on feedstock, catalyst 
+type and utilized HT conditions the composition and fuel properties of 
+renewable hydrocarbons can be altered.
+вот такой json для этого примера
+{
+  "CRL технологии": "CRL 2"
+}'''
+)                     
+
+discription_prompt_name = [discription_prompt_1,
+                            discription_prompt_2,
+                            discription_prompt_TRL,
+                            discription_prompt_MRL,
+                            discription_prompt_CRL]

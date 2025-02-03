@@ -26,16 +26,26 @@ from bot.states import UserStates
 from bot.texts import *
 from api import ParamsApi
 
+import logging
+
 TOKEN = config.bot_token
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 bot = Bot(TOKEN)
 
+bot_logger = logging.getLogger('bot_logger')
+handler = logging.StreamHandler()
+format_log = logging.Formatter("%(levelname)s:%(name)s - %(message)s")
+handler.setFormatter(format_log)
+bot_logger.addHandler(handler)
+bot_logger.setLevel(logging.INFO)
+
 api = ParamsApi()
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message, state: FSMContext) -> None:
+    bot_logger.info("Начало работы бота")
     data = await state.get_data()
     try:
         message_id = data["delete_messege"]
@@ -51,6 +61,7 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
 @dp.message(UserStates.get_pdf, F.content_type == "document")
 async def get_pdf_handler(message: Message, state: FSMContext):
+    bot_logger.info("Файл получен")
     user_data = await state.get_data()
     message_id = user_data["delete_messege"]
     user_id = user_data["user_id"]
@@ -68,16 +79,20 @@ async def get_pdf_handler(message: Message, state: FSMContext):
 
     waiting_message_id = await message.answer(waiting_message)
     try:
-        answer = api.get_additional_parameters(f"files/{file_name}")
+        bot_logger.info("Начало работы с файлом")
+        answer = api.get_answer(f"files/{file_name}")
 
         await bot.delete_messages(chat_id=message.chat.id, message_ids=[waiting_message_id.message_id])
-        
-        await message.answer_document(FSInputFile(answer))
-        message_after = await message.answer(
-            "Что бы запусть бота заново напишите /start"
-        )
-        await state.update_data(delete_messege=[message_after.message_id])
-        await state.clear()
+        bot_logger.info("Файл готов к отпреке")
+        try:
+            await message.answer_document(FSInputFile(answer))
+            message_after = await message.answer(
+                "Что бы запусть бота заново напишите /start"
+            )
+            await state.update_data(delete_messege=[message_after.message_id])
+            await state.clear()
+        except:
+            await message.answer('Произошла ошибка, пожалуйста попробуйте еще раз\n\nНапишите /start')
     except TypeError as e:
         await bot.delete_messages(chat_id=message.chat.id, message_ids=[waiting_message_id.message_id])
         await message.answer('Что-то пошло не по плану(')
